@@ -1,15 +1,12 @@
 #lib/board.rb
+require 'colorize'
 
 class Board
   LINES = 8
   attr_accessor :board
-  attr_reader :black_bg, :white_bg, :end_color
 
   def initialize
     @board = generate_board
-    @black_bg = "\e[1;30;49m"
-    @white_bg = "\e[1;30;107m"
-    @end_color = "\e[0m"
   end
 
   def generate_board
@@ -17,7 +14,7 @@ class Board
     LINES.times do
       row = []
       LINES.times do
-        row.push("♜ ")
+        row.push("\u2656 ")
       end
       grid.push(row)
     end
@@ -30,9 +27,9 @@ class Board
       check = row % 2 == 0 ? 0 : 1
       (0..board[row].length-1).each do |square|
         if square % 2 == (0+check)
-          formatted_square = white_bg + board[row][square] + end_color
+          formatted_square = board[row][square].colorize(:color => :black, :background => :light_white)
         else
-          formatted_square = black_bg + board[row][square] + end_color
+          formatted_square = board[row][square].colorize(:color => :black, :background => :white)
         end
         line.concat(formatted_square)
       end
