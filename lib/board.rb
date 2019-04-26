@@ -1,5 +1,7 @@
 #lib/board.rb
+
 require 'colorize'
+require_relative 'cells'
 
 class Board
   LINES = 8
@@ -8,8 +10,9 @@ class Board
 
   def initialize
     @board = generate_board
-    @board_letters = "  A B C D E F G H"
+    @board_letters = "  A B C D E F G H   ".colorize(:color => :black, :background => :cyan)
     @board_numbers = %w(8 7 6 5 4 3 2 1)
+    #@cells = Cells.new
   end
 
   def generate_board
@@ -25,8 +28,7 @@ class Board
   end
 
   def display_board
-    puts board_letters    
-
+    puts board_letters
     (0..board.length-1).each do |row|
       line = ""
       switch = row % 2 == 0 ? 0 : 1
@@ -38,11 +40,15 @@ class Board
         end
         line.concat(formatted_square)        
       end
-      line = board_numbers[row] + " " + line + " " + board_numbers[row]
-      puts line
+      puts color_line(line, row)
     end
-
     puts board_letters
+  end
+
+  def color_line(line, row)
+    colored_number_left = (board_numbers[row] + " ").colorize(:color => :black, :background => :cyan)
+    colored_number_right = (" " + board_numbers[row]).colorize(:color => :black, :background => :cyan)
+    line = colored_number_left + line + colored_number_right
   end
 
 end
