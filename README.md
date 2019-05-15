@@ -63,6 +63,8 @@ gem install colorize
   2. Implement Castling
   3. Add save/load functionality
   4. Add end game message and the winner announcement
+  5. Clean up
+  6. Get rid of colorize gem
 
 ## Built With
 
