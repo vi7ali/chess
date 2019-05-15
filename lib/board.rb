@@ -4,20 +4,16 @@ require 'colorize'
 #require_relative 'cells'
 
 class Board  
-  attr_accessor :grid
+  attr_accessor
   attr_reader :board_letters, :board_numbers
 
-  def initialize(grid=nil)
-    @grid = grid
+  def initialize
     @board_letters = "  A B C D E F G H   ".colorize(:color => :black, :background => :cyan)
     @board_numbers = %w(8 7 6 5 4 3 2 1)    
   end
 
-  def update(grid)
-    self.grid = grid
-  end
-
-  def display_board
+  def display(cells)
+    grid = generate_grid(cells)
     puts board_letters
     (0..grid.length-1).each do |row|
       line = ""
@@ -34,6 +30,19 @@ class Board
       puts color_line(line, row)  
     end    
     puts board_letters
+  end
+
+  def generate_grid(cells)
+    grid = []
+    row = []    
+    cells.each do |cell|
+      row.push(cell.content + " ")          #Adding a space for aesthetic purpose
+      if row.length == InitConfig::TOTAL_COLUMNS
+        grid.push(row)
+        row = []        
+      end      
+    end
+    grid
   end
 
   def color_line(line, row)

@@ -1,25 +1,25 @@
-require_relative 'logic'
+require_relative 'init_config'
 
 class Piece
-  include Logic
-  attr_accessor :name, :coord, :color, :symb
+  include InitConfig  
+  attr_accessor :name, :color, :symb, :init_pos, :total_moves
 
-  @@symbols = Logic.get_symbols
+  @@symbols_list = InitConfig.set_symbols
+
+  def symbols_list
+    @@symbols_list
+  end
   
-  def initialize(name, coord)
+  def initialize(name, color, init_pos)
     @name = name
-    @coord = coord
-    @color = get_color
-    @symb = get_symbol
+    @color = color
+    @init_pos = init_pos
+    @symb = set_symbol
+    @total_moves = 0
   end
 
-  def get_color
-    return "white" if coord[0] > 1
-    return "black"
-  end
-
-  def get_symbol
-    @@symbols[color.to_sym][name.to_sym]
+  def set_symbol
+    symbols_list[color.to_sym][name.to_sym]
   end
 
 end
