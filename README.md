@@ -4,6 +4,8 @@
 GAME IS IN ALPHA
 ******************
 
+![chess game screenshot](img/chess.png)
+
 Chess is a two-player strategy board game played on a chessboard, a checkered gameboard with 64 squares arranged in an 8×8 grid.
 Each player begins with 16 pieces: one king, one queen, two rooks, two knights, two bishops, and eight pawns. Each of the six piece types moves differently, with the most powerful being the queen and the least powerful the pawn. The objective is to checkmate.
 
