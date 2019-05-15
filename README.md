@@ -50,7 +50,7 @@ gem install colorize
 
   1. Fork this repo
   2. Clone it to your local computer
-  3. In the command line go to the project folder
+  3. In the command line go to the project folder\lib
   4. Type `ruby game.rb`
 
 ## Running the tests
