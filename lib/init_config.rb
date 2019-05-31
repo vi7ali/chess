@@ -3,7 +3,35 @@ module InitConfig
   
   TOTAL_CELLS = 64
   TOTAL_COLUMNS = 8
-  TOTAL_PIECES = 32 
+  TOTAL_PIECES = 32
+
+  def set_initial_positions
+    positions = {}
+
+    #PAWN INITIAL POSITIONS
+    pawn_pos = []
+    white_row = 1
+    black_row = 6
+    (0..7).each do |col|
+      pawn_pos.push([white_row, col])
+      pawn_pos.push([black_row, col])
+    end
+    
+    #PAWN
+    positions[:pawn] = pawn_pos
+    #ROOK
+    positions[:rook] = [[7, 0], [0, 0], [0, 7], [7, 7]]
+    #KNIGHT
+    positions[:knight] = [[7, 1], [0, 1], [0, 6], [7, 6]]
+    #BISHOP
+    positions[:bishop] = [[7, 2], [0, 2], [0, 5], [7, 5]]
+    #QUEEN
+    positions[:queen] = [[7, 3], [0, 3]]
+    #KING
+    positions[:king] = [[7, 4], [0, 4]]
+
+    positions
+  end
 
   def get_cell_name(coord)
     row = nil
@@ -24,6 +52,28 @@ module InitConfig
     name = col + row.to_s
 
     return name
+  end
+
+  def set_symbols
+    white_symbols = { 
+      pawn: "\u2659", 
+      knight: "\u2658",
+      bishop: "\u2657",
+      rook: "\u2656",
+      queen: "\u2655",
+      king: "\u2654" 
+    }
+    
+    black_symbols = {
+      pawn: "\u265F", 
+      knight: "\u265E",
+      bishop: "\u265D",
+      rook: "\u265C",
+      queen: "\u265B",
+      king: "\u265A" 
+    }
+
+    all_symbols = { white: white_symbols, black: black_symbols }
   end
 
   def generate_directions(cells)

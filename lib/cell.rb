@@ -1,8 +1,7 @@
 #lib/cell.rb
-require_relative 'moves'
 
 class Cell  
-  include Moves  
+  
   attr_accessor :coord, :piece, :content, :moves, :color, :up, :down, :left, 
                 :right, :up_left, :up_right, :down_left, :down_right, :name, 
                 :en_passant
@@ -22,7 +21,6 @@ class Cell
     @up_right = nil
     @down_left = nil
     @down_right = nil
-    @en_passant = false
   end
 
   def contains_piece?
@@ -31,10 +29,6 @@ class Cell
     else
       return true
     end
-  end
-
-  def enpassant?
-    en_passant
   end
 
   def get_color
@@ -49,19 +43,13 @@ class Cell
 
   def update_moves
     if contains_piece?
-      self.moves = Moves.get_moves(self)
+      self.moves = piece.moves(self)
     else
       self.moves = []
     end
   end
   
   def update_cell(pce = nil)
-    unless pce.nil?
-      pce.total_moves += 1
-      if pce.name == "pawn"
-        pce = get_pawn_specials(pce)
-      end
-    end    
     self.piece = pce
     self.content = get_content
     self.color = get_color
@@ -81,24 +69,6 @@ class Cell
       moves_string = moves_string + cell.coord.to_s + ", "
     end
     puts "Square #{coord} contains the piece #{content}, color is #{color}, moves are #{moves_string}"    
-  end
-
-  def get_pawn_specials(pce)
-    #Queen coronation
-    if pce.color == "white" && coord[0] == 0
-      pce.name = "queen"
-      pce.symb = pce.set_symbol
-    elsif pce.color == "black" && coord[0] == 7
-      pce.name = "queen"
-      pce.symb = pce.set_symbol
-    end
-    #En passant
-    if pce.total_moves == 1 && (coord[0] == 4 || coord[0] == 3)
-      en_passant = true
-    else
-      en_passant = false
-    end
-    return pce
   end
 
 end

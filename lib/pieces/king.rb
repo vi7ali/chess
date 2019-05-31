@@ -1,12 +1,13 @@
 class King
-  attr_reader :color, :name, :starting_coords
-  attr_accessor :symb
+  attr_reader :color, :name
+  attr_accessor :symb, :starting_coords
 
   def initialize(color)
     @name = "king"
     @color = color
-    @symb = get_symb
-    @starting_coords = [[7, 4], [0, 4]]    
+    @symb = nil
+    @starting_coords = nil
+    post_init
   end
 
   def moves(current_pos)
@@ -24,11 +25,13 @@ class King
 
   private
 
-  def get_symb
+  def post_init
     if color == "white"
       self.symb = "\u2654"
+      self.starting_coords = [[7, 4]]  
     else
       self.symb = "\u265A"
+      self.starting_coords = [[0, 4]]
     end
   end
 

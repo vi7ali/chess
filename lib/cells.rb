@@ -19,7 +19,7 @@ class Cells
     coord = generate_coord
     name = InitConfig.get_cell_name(coord)
     all_pieces.each do |pce|
-      if pce.init_pos == coord
+      if pce.starting_coords.include?(coord)
         piece = pce
       end
     end
@@ -96,8 +96,7 @@ class Cells
     cell.update_cell()
   end
 
-  def reverse_update_cells(cell, move, cell_piece, move_piece)
-    cell_piece.total_moves -= 1    
+  def reverse_update_cells(cell, move, cell_piece, move_piece)  
     cell.update_cell(cell_piece)
     move.update_cell(move_piece)
     all_cells.each do |cell|

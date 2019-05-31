@@ -1,13 +1,13 @@
 class Knight
-  attr_reader :color, :name, :starting_coords
-  attr_accessor :symb
+  attr_reader :color, :name
+  attr_accessor :symb, :starting_coords
 
   def initialize(color)
     @name = "knight"
     @color = color
-    @symb = get_symb
-    @starting_coords = [[7, 1], [0, 1], [0, 6], [7, 6]]
-    
+    @symb = nil
+    @starting_coords = nil
+    post_init
   end
 
   def moves(current_pos)
@@ -16,16 +16,19 @@ class Knight
     moves += two_right_moves(current_pos)
     moves += two_left_moves(current_pos)
     moves += two_down_moves(current_pos)
+    moves.filter! {|square| !square.contains_piece? || square.color != current_pos.color}
     return moves
   end
 
   private
 
-  def get_symb
+  def post_init
     if color == "white"
-      self.symb = "\u2658"     
+      self.symb = "\u2658"
+      self.starting_coords = [[7, 1], [7, 6]]
     else
       self.symb = "\u265E"
+      self.starting_coords = [[0, 1], [0, 6]]
     end
   end
 

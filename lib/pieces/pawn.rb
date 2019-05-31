@@ -7,7 +7,7 @@ class Pawn
     @color = color
     @symb = nil
     @starting_row = nil
-    @starting_coords = generate_coords
+    @starting_coords = nil
     post_init
   end
 
@@ -19,7 +19,7 @@ class Pawn
       return get_black_moves(current_pos)
     end
     return moves
-  end
+  end  
 
   private
 
@@ -27,21 +27,12 @@ class Pawn
     if color == "white"
       self.symb = "\u2659"
       self.starting_row = 6
+      self.starting_coords = [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 6], [6, 7]]
     else
       self.symb = "\u265F"
       self.starting_row = 1
+      self.starting_coords = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7]]
     end
-  end
-  
-  def generate_coords
-    starting_coords = []
-    white_row = 1
-    black_row = 6
-    (0..7).each do |col|
-      starting_coords.push([white_row, col])
-      starting_coords.push([black_row, col])
-    end
-    return starting_coords
   end
 
   def get_white_moves(current_pos)
