@@ -1,36 +1,78 @@
 #lib/pieces.rb
 
-require_relative 'init_config'
-require_relative 'piece'
+require_relative 'pawn'
+require_relative 'rook'
+require_relative 'knight'
+require_relative 'bishop'
+require_relative 'queen'
+require_relative 'king'
 
-class Pieces
-  include InitConfig
+class Pieces  
   attr_accessor :all_pieces, :moves
-
-  @@initial_positions = InitConfig.set_initial_positions
-
-  def initial_positions
-    @@initial_positions
-  end
 
   def initialize
     @all_pieces = generate_pieces
   end
 
-  def generate_piece(name, color, init_pos)    
-    Piece.new(name, color, init_pos)
+  def generate_piece(piece:, color:)
+    piece.new(color)
   end
 
   def generate_pieces
-    self.all_pieces = []
+    all_pieces = []
+    all_pieces = generate_pawns(all_pieces)
+    all_pieces = generate_rooks(all_pieces)
+    all_pieces = generate_knights(all_pieces)
+    all_pieces = generate_bishops(all_pieces)
+    all_pieces = generate_queens(all_pieces)
+    all_pieces = generate_kings(all_pieces)
+    return all_pieces
+  end
 
-    initial_positions.each do |piece, positions|
-      positions.length.times do |idx|
-        name = piece.to_s
-        color = positions[idx][0] > 1 ? "white" : "black"
-        init_pos = positions[idx]
-        self.all_pieces.push(generate_piece(name, color, init_pos))
-      end
+  def generate_pawns(all_pieces)    
+    16.times do |i|
+      color = i < 7 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: Pawn, color: color))
+    end
+    return all_pieces
+  end
+
+  def generate_rooks(all_pieces)    
+    4.times do |i|
+      color = i < 2 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: Rook, color: color))
+    end
+    return all_pieces
+  end
+
+  def generate_knights(all_pieces)    
+    4.times do |i|
+      color = i < 2 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: Knight, color: color))
+    end
+    return all_pieces
+  end
+
+  def generate_bishops(all_pieces)    
+    4.times do |i|
+      color = i < 2 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: Bishop, color: color))
+    end
+    return all_pieces
+  end
+
+  def generate_queens(all_pieces)    
+    2.times do |i|
+      color = i < 1 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: Queen, color: color))
+    end
+    return all_pieces
+  end
+
+  def generate_kings(all_pieces)    
+    2.times do |i|
+      color = i < 1 ? "white" : "black"
+      all_pieces.push(generate_piece(piece: King, color: color))
     end
     return all_pieces
   end

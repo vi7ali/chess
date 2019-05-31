@@ -7,6 +7,7 @@ class Pawn
     @color = color
     @symb = nil
     @starting_row = nil
+    @starting_coords = generate_coords
     post_init
   end
 
@@ -25,11 +26,22 @@ class Pawn
   def post_init
     if color == "white"
       self.symb = "\u2659"
-      self.starting_row = 6
+      self.starting_row = 6      
     else
       self.symb = "\u265F"
       self.starting_row = 1
     end
+  end
+  
+  def generate_coords
+    starting_coords = []
+    white_row = 1
+    black_row = 6
+    (0..7).each do |col|
+      starting_coords.push([white_row, col])
+      starting_coords.push([black_row, col])
+    end
+    return starting_coords
   end
 
   def get_white_moves(current_pos)
