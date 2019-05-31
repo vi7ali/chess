@@ -1,14 +1,14 @@
 #lib/pieces.rb
 
-require_relative 'pawn'
-require_relative 'rook'
-require_relative 'knight'
-require_relative 'bishop'
-require_relative 'queen'
-require_relative 'king'
+require './pieces/pawn'
+require './pieces/rook'
+require './pieces/knight'
+require './pieces/bishop'
+require './pieces/queen'
+require './pieces/king'
 
 class Pieces  
-  attr_accessor :all_pieces, :moves
+  attr_reader :all_pieces
 
   def initialize
     @all_pieces = generate_pieces
@@ -31,7 +31,7 @@ class Pieces
 
   def generate_pawns(all_pieces)    
     16.times do |i|
-      color = i < 7 ? "white" : "black"
+      color = i < 8 ? "white" : "black"
       all_pieces.push(generate_piece(piece: Pawn, color: color))
     end
     return all_pieces
@@ -80,7 +80,7 @@ class Pieces
   def to_s
     puts "Pieces"
     all_pieces.each do |piece|
-      puts "#{piece.name}, #{piece.color}, #{piece.symb}, #{piece.moves}"
+      puts "#{piece.name}, #{piece.color}, #{piece.symb}"
     end
   end
 

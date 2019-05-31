@@ -1,6 +1,6 @@
 class Pawn
   attr_reader :color, :name
-  attr_accessor :symb, :starting_row
+  attr_accessor :symb, :starting_row, :starting_coords
 
   def initialize(color)
     @name = "pawn"
@@ -26,7 +26,7 @@ class Pawn
   def post_init
     if color == "white"
       self.symb = "\u2659"
-      self.starting_row = 6      
+      self.starting_row = 6
     else
       self.symb = "\u265F"
       self.starting_row = 1
