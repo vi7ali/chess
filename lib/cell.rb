@@ -8,7 +8,7 @@ class Cell
                 :en_passant
 
   def initialize(coord, piece, name)    
-    @coord = coord    
+    @coord = coord
     @piece = piece
     @moves = []
     @color = get_color

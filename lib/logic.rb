@@ -18,8 +18,8 @@ class Logic
   def stalemate?(color)
     king = get_king(color)
     moves = []
-    pieces = cells.get_pieces_of_same_color(color)    
-    pieces.each do |piece|      
+    pieces = cells.get_pieces_of_same_color(color)
+    pieces.each do |piece|
       piece.moves.each do |move|
         moves.push(move.name) if valid_move?(piece, move)
       end
