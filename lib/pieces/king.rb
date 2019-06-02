@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
+# lib/pieces/king.rb
+# King piece class contains the name, symbol, color,
+# starting coordinates and the public interface moves
 class King
   attr_reader :color, :name
   attr_accessor :symb, :starting_coords
 
   def initialize(color)
-    @name = "king"
+    @name = 'king'
     @color = color
     @symb = nil
     @starting_coords = nil
@@ -11,24 +16,19 @@ class King
   end
 
   def moves(current_pos)
-    moves = []
-    moves += up_moves(current_pos)
-    moves += right_moves(current_pos)
-    moves += left_moves(current_pos)
-    moves += down_moves(current_pos)
-    moves += up_left_moves(current_pos)
-    moves += up_right_moves(current_pos)
-    moves += down_left_moves(current_pos)
-    moves += down_right_moves(current_pos)
-    return moves
+    moves = up_moves(current_pos) + down_moves(current_pos)
+    moves += right_moves(current_pos) + left_moves(current_pos)
+    moves += up_left_moves(current_pos) + up_right_moves(current_pos)
+    moves += down_left_moves(current_pos) + down_right_moves(current_pos)
+    moves
   end
 
   private
 
   def post_init
-    if color == "white"
+    if color == 'white'
       self.symb = "\u2654"
-      self.starting_coords = [[7, 4]]  
+      self.starting_coords = [[7, 4]]
     else
       self.symb = "\u265A"
       self.starting_coords = [[0, 4]]
@@ -42,7 +42,7 @@ class King
         moves.push(current_pos.up)
       end
     end
-    return moves
+    moves
   end
 
   def down_moves(current_pos)
@@ -52,7 +52,7 @@ class King
         moves.push(current_pos.down)
       end
     end
-    return moves
+    moves
   end
 
   def left_moves(current_pos)
@@ -62,7 +62,7 @@ class King
         moves.push(current_pos.left)
       end
     end
-    return moves
+    moves
   end
 
   def right_moves(current_pos)
@@ -72,7 +72,7 @@ class King
         moves.push(current_pos.right)
       end
     end
-    return moves
+    moves
   end
 
   def up_left_moves(current_pos)
@@ -82,7 +82,7 @@ class King
         moves.push(current_pos.up_left)
       end
     end
-    return moves
+    moves
   end
 
   def up_right_moves(current_pos)
@@ -92,7 +92,7 @@ class King
         moves.push(current_pos.up_right)
       end
     end
-    return moves
+    moves
   end
 
   def down_left_moves(current_pos)
@@ -102,7 +102,7 @@ class King
         moves.push(current_pos.down_left)
       end
     end
-    return moves
+    moves
   end
 
   def down_right_moves(current_pos)
@@ -112,7 +112,6 @@ class King
         moves.push(current_pos.down_right)
       end
     end
-    return moves
+    moves
   end
-  
 end

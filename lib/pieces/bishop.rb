@@ -16,8 +16,7 @@ class Bishop
   end
 
   def moves(current_pos)
-    moves = []
-    moves += up_left_moves(current_pos)
+    moves = up_left_moves(current_pos)
     moves += up_right_moves(current_pos)
     moves += down_left_moves(current_pos)
     moves += down_right_moves(current_pos)
