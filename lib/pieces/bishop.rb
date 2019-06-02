@@ -10,9 +10,8 @@ class Bishop
   def initialize(color)
     @name = 'bishop'
     @color = color
-    @symb = nil
-    @starting_coords = nil
-    post_init
+    @symb = color == 'white' ? "\u2657" : "\u265D"
+    @starting_coords = color == 'white' ? [[7, 2], [7, 5]] : [[0, 2], [0, 5]]
   end
 
   def moves(current_pos)
@@ -24,16 +23,6 @@ class Bishop
   end
 
   private
-
-  def post_init
-    if color == 'white'
-      self.symb = "\u2657"
-      self.starting_coords = [[7, 2], [7, 5]]
-    else
-      self.symb = "\u265D"
-      self.starting_coords = [[0, 2], [0, 5]]
-    end
-  end
 
   def up_left_moves(current_pos)
     moves = []

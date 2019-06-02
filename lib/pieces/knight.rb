@@ -10,9 +10,8 @@ class Knight
   def initialize(color)
     @name = 'knight'
     @color = color
-    @symb = nil
-    @starting_coords = nil
-    post_init
+    @symb = color == 'white' ? "\u2658" : "\u265E"
+    @starting_coords = color == 'white' ? [[7, 1], [7, 6]] : [[0, 1], [0, 6]]
   end
 
   def moves(current_pos)
@@ -27,16 +26,6 @@ class Knight
   end
 
   private
-
-  def post_init
-    if color == 'white'
-      self.symb = "\u2658"
-      self.starting_coords = [[7, 1], [7, 6]]
-    else
-      self.symb = "\u265E"
-      self.starting_coords = [[0, 1], [0, 6]]
-    end
-  end
 
   def two_up_moves(up)
     moves = []
