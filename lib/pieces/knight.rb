@@ -41,9 +41,7 @@ class Knight
   def two_up_moves(up)
     moves = []
     unless up.nil?
-      unless up.up.nil?
-        moves = add_left_right(up.up) unless up.up.nil?
-      end
+      moves = add_left_right(up.up) unless up.up.nil?
     end
     moves
   end
@@ -51,9 +49,7 @@ class Knight
   def two_down_moves(down)
     moves = []
     unless down.nil?
-      unless down.down.nil?
-        moves = add_left_right(down.down) unless down.down.nil?
-      end
+      moves = add_left_right(down.down) unless down.down.nil?
     end
     moves
   end
@@ -87,5 +83,4 @@ class Knight
     moves.push(square.right) unless square.right.nil?
     moves
   end
-
 end
