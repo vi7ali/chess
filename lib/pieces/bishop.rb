@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
+# lib/pieces/bishop.rb
+# Bishop piece class contains the name, symbol, color,
+# starting coordinates and the public interface moves
 class Bishop
   attr_reader :color, :name
   attr_accessor :symb, :starting_coords
 
   def initialize(color)
-    @name = "bishop"
+    @name = 'bishop'
     @color = color
     @symb = nil
     @starting_coords = nil
@@ -16,13 +21,13 @@ class Bishop
     moves += up_right_moves(current_pos)
     moves += down_left_moves(current_pos)
     moves += down_right_moves(current_pos)
-    return moves
+    moves
   end
 
   private
 
   def post_init
-    if color == "white"
+    if color == 'white'
       self.symb = "\u2657"
       self.starting_coords = [[7, 2], [7, 5]]
     else
@@ -33,70 +38,49 @@ class Bishop
 
   def up_left_moves(current_pos)
     moves = []
-    move_up_left = current_pos.up_left
-    until move_up_left.nil?
-      if move_up_left.contains_piece? && move_up_left.color != current_pos.color          
-        moves.push(move_up_left)
-        break
-      elsif move_up_left.contains_piece? && move_up_left.color == current_pos.color
-        break
-      else
-        moves.push(move_up_left)
-        move_up_left = move_up_left.up_left
-      end
+    up_left = current_pos.up_left
+    until up_left.nil? || up_left.color == current_pos.color
+      moves.push(up_left)
+      break if up_left.contains_piece?
+
+      up_left = up_left.up_left
     end
-    return moves
+    moves
   end
 
   def up_right_moves(current_pos)
     moves = []
-    move_up_right = current_pos.up_right
-    until move_up_right.nil?
-      if move_up_right.contains_piece? && move_up_right.color != current_pos.color          
-        moves.push(move_up_right)
-        break
-      elsif move_up_right.contains_piece? && move_up_right.color == current_pos.color
-        break
-      else
-        moves.push(move_up_right)
-        move_up_right = move_up_right.up_right
-      end
+    up_right = current_pos.up_right
+    until up_right.nil? || up_right.color == current_pos.color
+      moves.push(up_right)
+      break if up_right.contains_piece?
+
+      up_right = up_right.up_right
     end
-    return moves
+    moves
   end
 
   def down_left_moves(current_pos)
     moves = []
-    move_down_left = current_pos.down_left
-    until move_down_left.nil?
-      if move_down_left.contains_piece? && move_down_left.color != current_pos.color          
-        moves.push(move_down_left)
-        break
-      elsif move_down_left.contains_piece? && move_down_left.color == current_pos.color
-        break
-      else
-        moves.push(move_down_left)
-        move_down_left = move_down_left.down_left
-      end
+    down_left = current_pos.down_left
+    until down_left.nil? || down_left.color == current_pos.color
+      moves.push(down_left)
+      break if down_left.contains_piece?
+
+      down_left = down_left.down_left
     end
-    return moves
+    moves
   end
 
   def down_right_moves(current_pos)
     moves = []
-    move_down_right = current_pos.down_right
-    until move_down_right.nil?
-      if move_down_right.contains_piece? && move_down_right.color != current_pos.color          
-        moves.push(move_down_right)
-        break
-      elsif move_down_right.contains_piece? && move_down_right.color == current_pos.color
-        break
-      else
-        moves.push(move_down_right)
-        move_down_right = move_down_right.down_right
-      end
-    end
-    return moves
-  end
+    down_right = current_pos.down_right
+    until down_right.nil? || down_right.color == current_pos.color
+      moves.push(down_right)
+      break if down_right.contains_piece?
 
+      down_right = down_right.down_right
+    end
+    moves
+  end
 end
