@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
+# lib/pieces/queen.rb
+# Queen piece class contains the name, symbol, color,
+# starting coordinates and the public interface moves
 class Queen
   attr_reader :color, :name
   attr_accessor :symb, :starting_coords
 
   def initialize(color)
-    @name = "queen"
+    @name = 'queen'
     @color = color
     @symb = nil
     @starting_coords = nil
@@ -20,13 +25,13 @@ class Queen
     moves += up_right_moves(current_pos)
     moves += down_left_moves(current_pos)
     moves += down_right_moves(current_pos)
-    return moves
+    moves
   end
 
   private
 
   def post_init
-    if color == "white"
+    if color == 'white'
       self.symb = "\u2655"
       self.starting_coords = [[7, 3]]
     else
@@ -38,8 +43,8 @@ class Queen
   def up_moves(current_pos)
     moves = []
     move_up = current_pos.up
-    until move_up.nil?      
-      if move_up.contains_piece? && move_up.color != current_pos.color          
+    until move_up.nil?
+      if move_up.contains_piece? && move_up.color != current_pos.color
         moves.push(move_up)
         break
       elsif move_up.contains_piece? && move_up.color == current_pos.color
@@ -49,14 +54,14 @@ class Queen
         move_up = move_up.up
       end
     end
-    return moves
+    moves
   end
 
   def down_moves(current_pos)
     moves = []
     move_down = current_pos.down
-    until move_down.nil?      
-      if move_down.contains_piece? && move_down.color != current_pos.color          
+    until move_down.nil?
+      if move_down.contains_piece? && move_down.color != current_pos.color
         moves.push(move_down)
         break
       elsif move_down.contains_piece? && move_down.color == current_pos.color
@@ -66,14 +71,14 @@ class Queen
         move_down = move_down.down
       end
     end
-    return moves
+    moves
   end
 
   def left_moves(current_pos)
     moves = []
     move_left = current_pos.left
-    until move_left.nil?      
-      if move_left.contains_piece? && move_left.color != current_pos.color          
+    until move_left.nil?
+      if move_left.contains_piece? && move_left.color != current_pos.color
         moves.push(move_left)
         break
       elsif move_left.contains_piece? && move_left.color == current_pos.color
@@ -83,14 +88,14 @@ class Queen
         move_left = move_left.left
       end
     end
-    return moves
+    moves
   end
 
   def right_moves(current_pos)
     moves = []
     move_right = current_pos.right
-    until move_right.nil?      
-      if move_right.contains_piece? && move_right.color != current_pos.color          
+    until move_right.nil?
+      if move_right.contains_piece? && move_right.color != current_pos.color
         moves.push(move_right)
         break
       elsif move_right.contains_piece? && move_right.color == current_pos.color
@@ -100,7 +105,7 @@ class Queen
         move_right = move_right.right
       end
     end
-    return moves
+    moves
   end
 
   def up_left_moves(current_pos)
@@ -117,7 +122,7 @@ class Queen
         move_up_left = move_up_left.up_left
       end
     end
-    return moves
+    moves
   end
 
   def up_right_moves(current_pos)
@@ -134,7 +139,7 @@ class Queen
         move_up_right = move_up_right.up_right
       end
     end
-    return moves
+    moves
   end
 
   def down_left_moves(current_pos)
@@ -151,7 +156,7 @@ class Queen
         move_down_left = move_down_left.down_left
       end
     end
-    return moves
+    moves
   end
 
   def down_right_moves(current_pos)
@@ -168,7 +173,6 @@ class Queen
         move_down_right = move_down_right.down_right
       end
     end
-    return moves
+    moves
   end
-
 end
