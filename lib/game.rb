@@ -1,4 +1,5 @@
-#lib/game.rb
+# lib/game.rb
+# frozen_string_literal: true
 
 require_relative 'cells'
 require_relative 'pieces'
@@ -17,7 +18,8 @@ class Game
     @@moves_total = moves_total
   end
 
-  attr_accessor :cells, :board, :pieces, :current_player, :player_1, :player_2, :pieces, :logic
+  attr_accessor :cells, :board, :current_player, :player_1, :player_2,
+                :pieces, :logic
 
   def initialize(args)
     @player_1 = args[:player_1]
@@ -25,8 +27,8 @@ class Game
     @pieces = args[:pieces]
     @board = args[:board]
     @cells = Cells.new(pieces.all_pieces)
-    @logic = Logic.new(cells, pieces)
-    @current_player = get_current_player
+    @logic = Logic.new(cells)
+    @current_player = select_current_player
   end
 
   def update_board
@@ -44,26 +46,24 @@ class Game
         move = logic.select_move(cell)
       end
       cells.update_cells(cell, move)
-      system("clear")
+      system('clear')
       update_board
       self.moves_total += 1
-      self.current_player = get_current_player
-    end    
+      self.current_player = select_current_player
+    end
   end
 
-  def get_current_player
-    white_player = player_1.color == "white" ? player_1 : player_2
-    black_player = player_1.color == "black" ? player_1 : player_2    
-    if moves_total % 2 == 0
-      return white_player
-    else
-      return black_player
-    end
-  end 
+  def select_current_player
+    white_player = player_1.color == 'white' ? player_1 : player_2
+    black_player = player_1.color == 'black' ? player_1 : player_2
+    return white_player if moves_total.even?
+
+    black_player
+  end
 end
 
-g = Game.new( pieces: Pieces.new,              
-              board: Board.new, 
-              player_1: Player.new, 
-              player_2: Player.new)
+g = Game.new(pieces: Pieces.new,
+             board: Board.new,
+             player_1: Player.new,
+             player_2: Player.new)
 g.play
