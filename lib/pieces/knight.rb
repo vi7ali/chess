@@ -20,8 +20,8 @@ class Knight
     moves += two_right_moves(current_pos.right)
     moves += two_left_moves(current_pos.left)
     moves += two_down_moves(current_pos.down)
-    moves.filter! do |square|
-      !square.contains_piece? || square.color != current_pos.color
+    moves.filter! do |move|
+      !move.contains_piece? || move.color != current_pos.color
     end
     moves
   end
