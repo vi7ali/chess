@@ -1,99 +1,74 @@
 # frozen_string_literal: true
 
 # lib/pieces/pawn.rb
-# Pawn piece class contains the name, symbol, color,
-# starting coordinates, starting_row and
-# the public interface moves
+# Pawn class represents a pawn piece in chess
+# and responds to the public interface 'moves' that
+# returns an array of all of the possible
+# moves(references to cells objects on the board)
+# from the current position provided as an argument
 class Pawn
   attr_reader :color, :name
-  attr_accessor :symb, :starting_row, :starting_coords
+  attr_accessor :symb, :starting_row, :starting_coords, :directions
 
   def initialize(color)
     @name = 'pawn'
     @color = color
     @symb = color == 'white' ? "\u2659" : "\u265F"
     @starting_row = color == 'white' ? 6 : 1
-    @starting_coords = nil
-    select_starting_coords
+    @starting_coords = set_starting_coords
+    @directions = set_directions
   end
 
   def moves(current_pos)
-    return white_moves(current_pos) if color == 'white'
-
-    black_moves(current_pos)
+    moves = []
+    directions.each do |direction|
+      move = current_pos.send(direction)
+      moves.push(move) if valid_diagonal_move?(move)
+      if %i[up down].include?(direction)
+        double_move = move.send(direction)
+        moves += vertical_moves(move, double_move, current_pos)
+      end
+    end
+    moves
   end
 
   private
 
-  def select_starting_coords
+  def set_starting_coords
     if color == 'white'
-      self.starting_coords = [[6, 0], [6, 1], [6, 2], [6, 3],
-                              [6, 4], [6, 5], [6, 6], [6, 7]]
-    else
-      self.starting_coords = [[1, 0], [1, 1], [1, 2], [1, 3],
-                              [1, 4], [1, 5], [1, 6], [1, 7]]
+      return [[6, 0], [6, 1], [6, 2], [6, 3],
+              [6, 4], [6, 5], [6, 6], [6, 7]]
     end
+    [[1, 0], [1, 1], [1, 2], [1, 3],
+     [1, 4], [1, 5], [1, 6], [1, 7]]
+  end
+
+  def set_directions
+    return %i[up up_left up_right] if color == 'white'
+
+    %i[down down_left down_right]
   end
 
   def current_row(square)
     square.coord[0]
   end
 
-  # WHITE MOVES
-  def white_moves(current_pos)
-    up = current_pos.up
-    up_left = current_pos.up_left
-    up_right = current_pos.up_right
-    moves = white_vertical_moves(up, current_row(current_pos))
-    moves + white_diagonal_moves(up_left, up_right, current_pos.color)
-  end
-
-  def white_vertical_moves(up, current_row)
+  def vertical_moves(move, double_move, current_pos)
     moves = []
-    moves.push(up) if valid_vertical_move(up)
-    if current_row == starting_row && valid_vertical_move(up)
-      moves.push(up.up) if valid_vertical_move(up.up)
-    end
+    moves.push(move) if valid_vertical_move?(move)
+    moves.push(double_move) if valid_double_move?(current_pos, double_move)
     moves
   end
 
-  def white_diagonal_moves(up_left, up_right, color)
-    moves = []
-    moves.push(up_left) if valid_diagonal_move(up_left, color)
-    moves.push(up_right) if valid_diagonal_move(up_right, color)
-    moves
-  end
-
-  # BLACK MOVES
-  def black_moves(current_pos)
-    down = current_pos.down
-    down_left = current_pos.down_left
-    down_right = current_pos.down_right
-    moves = black_vertical_moves(down, current_row(current_pos))
-    moves + black_diagonal_moves(down_left, down_right, current_pos.color)
-  end
-
-  def black_vertical_moves(down, current_row)
-    moves = []
-    moves.push(down) if valid_vertical_move(down)
-    if current_row == starting_row && valid_vertical_move(down)
-      moves.push(down.down) if valid_vertical_move(down.down)
-    end
-    moves
-  end
-
-  def black_diagonal_moves(down_left, down_right, color)
-    moves = []
-    moves.push(down_left) if valid_diagonal_move(down_left, color)
-    moves.push(down_right) if valid_diagonal_move(down_right, color)
-    moves
-  end
-
-  def valid_diagonal_move(square, color)
+  def valid_diagonal_move?(square)
     !square.nil? && square.contains_piece? && square.color != color
   end
 
-  def valid_vertical_move(square)
+  def valid_vertical_move?(square)
     !square.nil? && !square.contains_piece?
+  end
+
+  def valid_double_move?(current_pos, double_move)
+    current_row(current_pos) == starting_row && valid_vertical_move?(double_move)
   end
 end

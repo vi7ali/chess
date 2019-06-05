@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 # lib/pieces/bishop.rb
-# Bishop piece class contains the name, symbol, color,
-# starting coordinates and the public interface moves
+# Bishop class represents a bishop piece in chess
+# and responds to the public interface 'moves' that
+# returns an array of all of the possible
+# moves(references to cells objects on the board)
+# from the current position provided as an argument
 class Bishop
   attr_reader :color, :name, :directions
   attr_accessor :symb, :starting_coords

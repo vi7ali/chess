@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 # lib/pieces/king.rb
-# King piece class contains the name, symbol, color,
-# starting coordinates and the public interface moves
+# King class represents a king piece in chess
+# and responds to the public interface 'moves' that
+# returns an array of all of the possible
+# moves(references to cells objects on the board)
+# from the current position provided as an argument
 class King
   attr_reader :color, :name, :directions
   attr_accessor :symb, :starting_coords
