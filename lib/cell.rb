@@ -1,18 +1,16 @@
 #lib/cell.rb
 
-class Cell  
-  
-  attr_accessor :coord, :piece, :content, :moves, :color, :up, :down, :left, 
-                :right, :up_left, :up_right, :down_left, :down_right, :name, 
-                :en_passant
+class Cell
+  attr_accessor :coord, :piece, :content, :moves, :color, :up, :down, :left,
+                :right, :up_left, :up_right, :down_left, :down_right, :name
 
-  def initialize(coord, piece, name)    
+  def initialize(coord, piece)
     @coord = coord
     @piece = piece
     @moves = []
-    @color = get_color
-    @content = get_content
-    @name = name
+    @color = update_color
+    @content = update_content
+    @name = cell_name
     @up = nil
     @down = nil
     @left = nil
@@ -23,53 +21,53 @@ class Cell
     @down_right = nil
   end
 
-  def contains_piece?
-    if piece.nil?
-      return false
-    else
-      return true
-    end
-  end
-
-  def get_color
-    return piece.color if contains_piece?
-    return nil
-  end
-
-  def get_content
-    return piece.symb if contains_piece?
-    return " "
-  end
-
   def update_moves
-    if contains_piece?
-      self.moves = piece.moves(self)
-    else
-      self.moves = []
-    end
+    self.moves = []
+    self.moves = piece.moves(self) if contains_piece?
   end
-  
+
   def update_cell(pce = nil)
     self.piece = pce
-    self.content = get_content
-    self.color = get_color
+    self.content = update_content
+    self.color = update_color
   end
 
-  def show_moves
-    moves_string = ""
-    moves.each do |cell|
-      moves_string = moves_string + cell.name + " "
+  def contains_piece?
+    return false if piece.nil?
+
+    true
+  end
+
+  private
+
+  def cell_name
+    row = coord[0]
+    col = coord[1]
+    name = col_letter(col) + row_number(row)
+    name
+  end
+
+  def row_number(row)
+    8.downto(1).with_index do |num, idx|
+      return num.to_s if row == idx
     end
-    puts moves_string.strip!
   end
 
-  def show
-    moves_string = ""
-    moves.each do |cell|
-      moves_string = moves_string + cell.coord.to_s + ", "
+  def col_letter(col)
+    ('A'..'H').each.with_index do |letter, idx|
+      return letter if col == idx
     end
-    puts "Square #{coord} contains the piece #{content}, color is #{color}, moves are #{moves_string}"    
   end
 
+  def update_color
+    return piece.color if contains_piece?
+
+    nil
+  end
+
+  def update_content
+    return piece.symb if contains_piece?
+
+    ' '
+  end
 end
-

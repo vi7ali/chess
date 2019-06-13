@@ -1,53 +1,66 @@
-#lib/board.rb
+# lib/board.rb
 
 require 'colorize'
-#require_relative 'cells'
 
-class Board  
-  attr_accessor
+class Board
+  attr_accessor :backg_color
   attr_reader :board_letters, :board_numbers
 
   def initialize
-    @board_letters = "  A B C D E F G H   ".colorize(:color => :black, :background => :cyan)
-    @board_numbers = %w(8 7 6 5 4 3 2 1)    
+    @board_letters = '  A B C D E F G H   '.colorize(color: :black,
+                                                     background: :cyan)
+    @board_numbers = %w[8 7 6 5 4 3 2 1]
+    @backg_color = :light_white
   end
 
   def display(cells)
     grid = generate_grid(cells)
     puts board_letters
-    (0..grid.length-1).each do |row|
-      line = ""
-      switch = row % 2 == 0 ? 0 : 1
-      (0..grid[row].length-1).each do |square|
-        cell = grid[row][square].to_s
-        if square % 2 == (0+switch)
-          formatted_square = cell.colorize(:color => :black, :background => :light_white)
-        else
-          formatted_square = cell.colorize(:color => :black, :background => :white)
-        end
-        line.concat(formatted_square)              
-      end
-      puts color_line(line, row)  
-    end    
+    grid.each_with_index do |row, idx|
+      line = create_line(row)
+      puts format_line(line, idx)
+      switch_color
+    end
     puts board_letters
+  end
+
+  private
+
+  def create_line(row)
+    line = ''
+    row.each do |square|
+      square = square.to_s
+      colorized_square = square.colorize(color: :black,
+                                         background: backg_color)
+      line.concat(colorized_square)
+      switch_color
+    end
+    line
+  end
+
+  def switch_color
+    self.backg_color = backg_color == :white ? :light_white : :white
   end
 
   def generate_grid(cells)
     grid = []
-    row = []    
+    row = []
     cells.each do |cell|
-      row.push(cell.content + " ")          #Adding a space for aesthetic purpose
-      if row.length == InitConfig::TOTAL_COLUMNS
+      row.push(cell.content + ' ')
+      if row.length == 8
         grid.push(row)
-        row = []        
-      end      
+        row = []
+      end
     end
     grid
   end
 
-  def color_line(line, row)
-    colored_number_left = (board_numbers[row] + " ").colorize(:color => :black, :background => :cyan)
-    colored_number_right = (" " + board_numbers[row]).colorize(:color => :black, :background => :cyan)
+  def format_line(line, idx)
+    colored_number_left = (board_numbers[idx] + ' ').colorize(color: :black,
+                                                              background: :cyan)
+    colored_number_right = (' ' + board_numbers[idx]).colorize(color: :black,
+                                                               background: :cyan)
     line = colored_number_left + line + colored_number_right
+    line
   end
 end

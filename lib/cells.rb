@@ -5,11 +5,12 @@ require_relative 'cell'
 
 class Cells
   include InitConfig
-  attr_accessor :all_cells, :all_pieces
+  attr_reader :all_cells, :all_pieces
 
   def initialize(all_pieces)
     @all_pieces = all_pieces
-    @all_cells = generate_cells
+    @all_cells = []
+    generate_cells
     InitConfig.generate_directions(self)
     generate_moves
   end
@@ -17,43 +18,31 @@ class Cells
   def generate_cell
     piece = nil
     coord = generate_coord
-    name = InitConfig.get_cell_name(coord)
     all_pieces.each do |pce|
-      if pce.starting_coords.include?(coord)
-        piece = pce
-      end
+      piece = pce if pce.starting_coords.include?(coord)
     end
-    Cell.new(coord, piece, name)
+    Cell.new(coord, piece)
   end
 
-
   def generate_cells
-    self.all_cells = []
-    InitConfig::TOTAL_CELLS.times do
-      self.all_cells.push(generate_cell)
+    64.times do
+      all_cells.push(generate_cell)
     end
-    return all_cells
-  end  
+  end
 
   def generate_coord
     last = all_cells.last
-    coord = []
-    if last.nil?
-      coord = [0, 0]
-    else      
-      if last.coord[1] < 7
-        coord = [last.coord[0], last.coord[1] + 1]
-      else
-        coord = [last.coord[0] + 1, 0]
-      end
-    end
-    return coord
+    return [0, 0] if last.nil?
+
+    last_row = last.coord[0]
+    last_column = last.coord[1]
+    return [last_row, last_column + 1] if last_column < 7
+
+    [last_row + 1, 0]
   end
 
   def generate_moves
-    all_cells.each do |cell|
-      cell.update_moves
-    end
+    all_cells.each(&:update_moves)
   end
 
   def get_pieces_of_same_color(color)
@@ -61,53 +50,32 @@ class Cells
     all_cells.each do |cell|
       pieces.push(cell) if cell.color == color && cell.contains_piece?
     end
-    return pieces
+    pieces
   end
 
   def get_cell(coord)
     all_cells.each do |cell|
       return cell if cell.coord == coord
     end
-      return nil
+    nil
   end
 
   def get_cell_by_name(name)
     all_cells.each do |cell|
       return cell if cell.name == name
     end
-      return nil
-  end  
+    nil
+  end
 
   def update_cells(cell, move)
     move.update_cell(cell.piece)
-    cell.update_cell()
-    all_cells.each do |cell|
-      cell.update_moves
-    end
+    cell.update_cell
+    all_cells.each(&:update_moves)
   end
 
-  def update_cells_en_passant(cell, move)
-    move.update_cell(cell.piece)
-    if cell.color == "white"
-      cell.down.update_cell()
-    else
-      cell.up.update_cell()
-    end
-    cell.update_cell()
-  end
-
-  def reverse_update_cells(cell, move, cell_piece, move_piece)  
+  def reverse_update_cells(cell, move, cell_piece, move_piece)
     cell.update_cell(cell_piece)
     move.update_cell(move_piece)
-    all_cells.each do |cell|
-      cell.update_moves
-    end
+    all_cells.each(&:update_moves)
   end
-
-  def to_s
-    puts "Array of #{all_cells.length} cells:"
-    all_cells.each do |cell|
-      cell.show
-    end
-  end  
 end
