@@ -1,7 +1,11 @@
-# lib/board.rb
+# frozen_string_literal: true
 
 require 'colorize'
-
+# lib/board.rb
+# Board class represents a board in chess
+# and responds to the public interface 'display' that# 
+# prints the board row by row using a collection of cells
+# passed as an argument
 class Board
   attr_accessor :backg_color
   attr_reader :board_letters, :board_numbers
@@ -27,7 +31,7 @@ class Board
   private
 
   def create_line(row)
-    line = ''
+    line = ''.dup
     row.each do |square|
       square = square.to_s
       colorized_square = square.colorize(color: :black,
