@@ -1,73 +1,50 @@
-#Player class. Sets name, sets random color, makes move
+# frozen_string_literal: true
 
+# Player class. Sets name, sets random color
 class Player
-  @@players_total = 0
-  @@first_color
+  @players_total = 0
+  @first_color = nil
+  class << self
+    attr_accessor :players_total, :first_color
+  end
 
   attr_reader :name, :color
-  attr_accessor :current_move, :current_piece
-
-  def players_total
-    @@players_total
-  end
-
-  def players_total=(players_total)
-    @@players_total = players_total
-  end
-
-  def first_color
-    @@first_color
-  end
-
-  def first_color=(first_color)
-    @@first_color = first_color
-  end
-
   def initialize
-    @name = get_name
+    @name = input_name
     @color = generate_color
-    @current_piece = nil
-    @current_move = nil
     post_init
   end
 
-  def post_init    
-    if players_total == 1
-      puts "#{name}, the Ancient Gods have decided that you will be commanding the #{color} warriors"
+  private
+
+  def post_init
+    if Player.players_total == 1
+      puts "#{name}, you will be commanding the #{color} warriors"
     else
       puts "As for you #{name}, you will control the #{color} army"
     end
-    puts ""
-    puts "(enter to continue)"
+    puts ''
+    puts '(enter to continue)'
     gets.chomp!
     system('clear')
   end
 
-  def get_name
+  def input_name
     system('clear')
-    puts "Player #{players_total+1}, please enter your name"
+    puts "Player #{Player.players_total + 1}, please enter your name"
     name = gets.chomp!
-    system('clear')    
-    return name
+    system('clear')
+    name
   end
 
   def generate_color
-    if players_total == 0
-      self.players_total = players_total + 1
-      self.first_color = rand(2) == 0 ? "white" : "black"          
-    else      
-      self.players_total = players_total + 1
-      second_color = first_color == "white" ? "black" : "white"
+    if Player.players_total.zero?
+      Player.first_color = rand(2).zero? ? 'white' : 'black'
+      color = Player.first_color
+    else
+      color = Player.first_color == 'white' ? 'black' : 'white'
     end
-  end
-
-  def get_piece
-    puts "Select your piece"
-    self.current_piece = gets.chomp!
-  end
-
-  def get_move
-    puts "Select a square"
-    self.current_move = gets.chomp!
+    Player.players_total = Player.players_total + 1
+    color
   end
 end
