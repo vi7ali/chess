@@ -1,4 +1,3 @@
-# lib/game.rb
 # frozen_string_literal: true
 
 require_relative 'cells'
@@ -7,6 +6,7 @@ require_relative 'board'
 require_relative 'player'
 require_relative 'logic'
 
+# lib/game.rb
 class Game
   @@moves_total = 0
 
