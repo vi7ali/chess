@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require './pieces/rook'
-require './pieces/knight'
-require './pieces/bishop'
-require './pieces/queen'
-require './pieces/king'
-require './pieces/pawn'
+require './lib/pieces/rook'
+require './lib/pieces/knight'
+require './lib/pieces/bishop'
+require './lib/pieces/queen'
+require './lib/pieces/king'
+require './lib/pieces/pawn'
 
 # lib/pieces.rb
 # Pieces class represents a collection of all pieces
