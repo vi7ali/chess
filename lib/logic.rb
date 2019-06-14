@@ -9,12 +9,12 @@ class Logic
     @cells = cells
   end
 
-  def end_game?(current_player)
+  def end_game(current_player)
     opponent_color = current_player.color == 'white' ? 'black' : 'white'
     opponent_king = get_king(opponent_color)
-    return true if king_in_mate?(opponent_king) ||
-                   stalemate?(current_player.color) ||
-                   resign?(current_player)
+    return 'mate' if king_in_mate?(opponent_king)
+    return 'stalemate' if stalemate?(current_player.color)
+    return 'resign' if resign?(current_player)
 
     false
   end
