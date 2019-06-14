@@ -2,6 +2,10 @@
 
 require_relative 'cell'
 # lib/cells.rb
+# Cells class generates all the squares on the board,
+# populates them with pieces and implements public methods
+# to retrieve cells by name, coords or color and updates them
+# reverse update is needed to predict the check
 class Cells
   attr_reader :all_cells, :all_pieces
 

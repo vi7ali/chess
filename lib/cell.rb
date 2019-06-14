@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 # lib/cell.rb
+# Cell class represents a single square on the board
+# it keeps references to the squares around it, updates self moves,
+# updates self content and color and responds to the call
+# contains_piece?
 class Cell
-  attr_accessor :coord, :piece, :content, :moves, :color, :up, :down, :left,
-                :right, :up_left, :up_right, :down_left, :down_right, :name
+  attr_reader :coord, :name
+  attr_accessor :up, :down, :left, :right, :up_left, :up_right,
+                :down_left, :down_right, :moves, :piece, :content,
+                :color
 
   def initialize(coord, piece)
     @coord = coord
@@ -22,19 +28,6 @@ class Cell
     @down_right = nil
   end
 
-  def directions(cells)
-    row = coord[0]
-    col = coord[1]
-    self.up = cells.get_cell([row - 1, col])
-    self.down = cells.get_cell([row + 1, col])
-    self.left = cells.get_cell([row, col - 1])
-    self.right = cells.get_cell([row, col + 1])
-    self.up_left = cells.get_cell([row - 1, col - 1])
-    self.up_right = cells.get_cell([row - 1, col + 1])
-    self.down_left = cells.get_cell([row + 1, col - 1])
-    self.down_right = cells.get_cell([row + 1, col + 1])
-  end
-
   def update_moves
     self.moves = []
     self.moves = piece.moves(self) if contains_piece?
@@ -50,6 +43,19 @@ class Cell
     return false if piece.nil?
 
     true
+  end
+
+  def directions(cells)
+    row = coord[0]
+    col = coord[1]
+    self.up = cells.get_cell([row - 1, col])
+    self.down = cells.get_cell([row + 1, col])
+    self.left = cells.get_cell([row, col - 1])
+    self.right = cells.get_cell([row, col + 1])
+    self.up_left = cells.get_cell([row - 1, col - 1])
+    self.up_right = cells.get_cell([row - 1, col + 1])
+    self.down_left = cells.get_cell([row + 1, col - 1])
+    self.down_right = cells.get_cell([row + 1, col + 1])
   end
 
   private
