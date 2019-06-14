@@ -8,11 +8,9 @@ require './pieces/king'
 require './pieces/pawn'
 
 # lib/pieces.rb
-# Bishop class represents a bishop piece in chess
-# and responds to the public interface 'moves' that
-# returns an array of all of the possible
-# moves(references to cells objects on the board)
-# from the current position provided as an argument
+# Pieces class represents a collection of all pieces
+# in chess. It's purpose is to generate the pieces
+# at the start and provide it to other classes
 class Pieces
   attr_reader :all_pieces
 

@@ -1,5 +1,6 @@
-#lib/cell.rb
+# frozen_string_literal: true
 
+# lib/cell.rb
 class Cell
   attr_accessor :coord, :piece, :content, :moves, :color, :up, :down, :left,
                 :right, :up_left, :up_right, :down_left, :down_right, :name
@@ -19,6 +20,19 @@ class Cell
     @up_right = nil
     @down_left = nil
     @down_right = nil
+  end
+
+  def directions(cells)
+    row = coord[0]
+    col = coord[1]
+    self.up = cells.get_cell([row - 1, col])
+    self.down = cells.get_cell([row + 1, col])
+    self.left = cells.get_cell([row, col - 1])
+    self.right = cells.get_cell([row, col + 1])
+    self.up_left = cells.get_cell([row - 1, col - 1])
+    self.up_right = cells.get_cell([row - 1, col + 1])
+    self.down_left = cells.get_cell([row + 1, col - 1])
+    self.down_right = cells.get_cell([row + 1, col + 1])
   end
 
   def update_moves

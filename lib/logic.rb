@@ -1,6 +1,6 @@
-# lib/logic.rb
 # frozen_string_literal: true
 
+# lib/logic.rb
 class Logic
   attr_accessor :cells
   def initialize(cells)
@@ -89,16 +89,16 @@ class Logic
     cell = nil
     loop do
       puts "#{current_player.name}, please select a #{current_player.color} piece"
-      cell_name = gets.chomp!.upcase
-      cell = cells.get_cell_by_name(cell_name)
-      unless cell.nil?
-        if !cell.piece.nil? && cell.color == current_player.color && !cell.moves.empty?
-          break
-        end
-      end
+      cell = cells.get_cell_by_name(gets.chomp!.upcase)
+      break if valid_selection?(cell, current_player)
+
       puts 'Invalid selection'
     end
     cell
+  end
+
+  def valid_selection?(cell, current_player)
+    !cell.nil? && !cell.piece.nil? && cell.color == current_player.color && !cell.moves.empty?
   end
 
   def select_move(cell)
